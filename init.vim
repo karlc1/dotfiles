@@ -72,7 +72,7 @@ map t :FloatermToggle <CR>
 " let rand_color = colors[localtime() % len(colors)]
 " execute 'colorscheme' fnameescape(rand_color)
 "colorscheme NeoSolarized
-colorscheme ayu
+colorscheme nord
 
 
 
