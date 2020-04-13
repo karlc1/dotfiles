@@ -4,11 +4,11 @@
 
 # terminal emulator
 super + Return
-	st
+	alacritty
 
 # Rofi application launcher
 super + p
-	 rofi -show drun -modi drun,window -show-icons -terminal st
+	 rofi -show drun -modi drun,window -show-icons -terminal alacritty
 
 # program launcher
 super + @space
