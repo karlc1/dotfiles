@@ -8,7 +8,7 @@ super + Return
 
 # Rofi application launcher
 super + p
-	 rofi -show run -modi run,window -show-icons -sidebar-mode -terminal st
+	 rofi -show drun -modi drun,window -show-icons -terminal st
 
 # program launcher
 super + @space
