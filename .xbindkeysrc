@@ -1,0 +1,31 @@
+
+# Increase volume
+"pactl set-sink-volume @DEFAULT_SINK@ +1000"
+	XF86AudioRaiseVolume
+
+# Decrease volume
+"pactl set-sink-volume @DEFAULT_SINK@ -1000"
+	XF86AudioLowerVolume
+
+# Play / Pause
+"dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
+	XF86AudioPlay
+
+# Stop
+"dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop"
+	XF86AudioStop
+
+# Next Song
+"dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
+	XF86AudioNext
+
+# Previous Song
+"dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
+	XF86AudioPrevious
+
+
+
+##################################
+# End of xbindkeys configuration #
+##################################
+

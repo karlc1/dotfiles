@@ -7,7 +7,6 @@ set smartcase
 syntax enable
 
 set nuw=1
-set nowrap
 
 set completeopt=noinsert
 
@@ -83,6 +82,8 @@ endif
 
 " Visuals
 let NERDTreeMinimalUI = 1
+let NERDTreeWinSize = 20
+
 let g:netrw_banner = 0
 set splitbelow
 set splitright
