@@ -13,8 +13,12 @@ set completeopt=noinsert
 let g:netrw_liststyle = 3
 
 " transparent background
-"au ColorScheme * hi Normal ctermbg=none guibg=none
+au ColorScheme * hi Normal ctermbg=none guibg=none ctermfg=none ctermbg=none
+au ColorScheme * hi LineNr ctermbg=none guibg=none ctermfg=none ctermbg=none
 "au ColorScheme myspecialcolors hi Normal ctermbg=red guibg=red
+"
+set ts=4 sw=4"
+
 
 call plug#begin('~/.vim/plugged')
 
@@ -65,6 +69,8 @@ let g:floaterm_position='center'
 
 map t :FloatermToggle <CR>
 
+nnoremap <leader>x *``cgn
+
 
 
 " let colors = ['gruvbox', 'ayu', 'nord']
@@ -82,14 +88,12 @@ endif
 
 " Visuals
 let NERDTreeMinimalUI = 1
-let NERDTreeWinSize = 20
-
 let g:netrw_banner = 0
 set splitbelow
 set splitright
 set statusline +=\ %{FugitiveStatusline()}
 let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#tab_min_count = 2
 
 " Navigation
 nnoremap <Leader>g :GoTestFunc <CR>
@@ -148,7 +152,7 @@ set updatetime=600
 " don't give |ins-completion-menu| messages.
 set shortmess+=c
 " always show signcolumns
-set signcolumn=yes
+set signcolumn=auto
 
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
