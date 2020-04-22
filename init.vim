@@ -14,7 +14,10 @@ let g:netrw_liststyle = 3
 
 " transparent background
 au ColorScheme * hi Normal ctermbg=none guibg=none ctermfg=none ctermbg=none
+" transparent number row
 au ColorScheme * hi LineNr ctermbg=none guibg=none ctermfg=none ctermbg=none
+" transparent current line number background
+au ColorScheme * hi CursorLineNr ctermbg=none guibg=none ctermfg=none ctermbg=none
 "au ColorScheme myspecialcolors hi Normal ctermbg=red guibg=red
 "
 set ts=4 sw=4"
