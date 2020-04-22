@@ -20,6 +20,7 @@ au ColorScheme * hi LineNr ctermbg=none guibg=none ctermfg=none ctermbg=none
 set ts=4 sw=4"
 
 
+
 call plug#begin('~/.vim/plugged')
 
 " ColorSchemes and visuals
@@ -221,3 +222,4 @@ endfunc
 
 let g:qs_highlight_on_keys = ['f', 'F']
 
+let g:NERDTreeWinSize=20
