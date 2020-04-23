@@ -18,9 +18,14 @@ au ColorScheme * hi Normal ctermbg=none guibg=none ctermfg=none ctermbg=none
 au ColorScheme * hi LineNr ctermbg=none guibg=none ctermfg=none ctermbg=none
 " transparent current line number background
 au ColorScheme * hi CursorLineNr ctermbg=none guibg=none ctermfg=none ctermbg=none
+" transparent sign column
+au ColorScheme * hi SignColumn ctermbg=none guibg=none ctermfg=none ctermbg=none
+
+
+
 "au ColorScheme myspecialcolors hi Normal ctermbg=red guibg=red
 "
-set ts=4 sw=4"
+set ts=6 sw=6"
 
 
 
@@ -225,4 +230,4 @@ endfunc
 
 let g:qs_highlight_on_keys = ['f', 'F']
 
-let g:NERDTreeWinSize=20
+let g:NERDTreeWinSize=30
