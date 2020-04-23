@@ -4,6 +4,7 @@ sxhkd &
 compton --vsync=opengl-swc --backend=glx --shadow-opacity=0 --glx-no-stencil --glx-no-rebind-pixmap &
 feh --bg-scale ~/Pictures/space.png  ~/Pictures/winter.jpg &
 /home/karlc/code/cleanfullscreen/cleanfullscreen &
+xrandr --output HDMI-2 --off --output HDMI-1 --primary --mode 1920x1080 --pos 1920x0 --rotate normal --output DP-1 --off --output eDP-1 --mode 1920x1080 --pos 0x0 --rotate normal --output DP-2 --off
 
 bspc monitor HDMI-1 -d I II III
 bspc monitor eDP-1 -d IV V VI
