@@ -23,6 +23,7 @@ au ColorScheme * hi SignColumn ctermbg=none guibg=none ctermfg=none ctermbg=none
 
 
 
+
 "au ColorScheme myspecialcolors hi Normal ctermbg=red guibg=red
 "
 set ts=6 sw=6"
@@ -41,6 +42,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'iCyMind/NeoSolarized'
 Plug 'jparise/vim-graphql'
+Plug 'dylanaraps/wal.vim'
 
 " Testing
 Plug 'janko/vim-test'
@@ -68,7 +70,7 @@ Plug 'voldikss/vim-floaterm'
 
 call plug#end()
 
-set termguicolors
+"set termguicolors
 set t_Co=256
 set background=light
 let ayucolor="mirage"
@@ -87,6 +89,8 @@ nnoremap <leader>x *``cgn
 " execute 'colorscheme' fnameescape(rand_color)
 "colorscheme NeoSolarized
 colorscheme nord
+:highlight LineNr ctermfg=darkgrey
+:highlight CursorLineNr ctermfg=yellow
 
 
 
@@ -230,4 +234,30 @@ endfunc
 
 let g:qs_highlight_on_keys = ['f', 'F']
 
-let g:NERDTreeWinSize=30
+let g:NERDTreeWinSize=20
+
+
+" Adaptive width set for nerd tree on 'w'
+function! s:SID()
+    if ! exists('s:sid')
+        let s:sid = matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze_SID$')
+    endif
+    return s:sid
+endfunction
+let s:SNR = '<SNR>'.s:SID().'_'
+
+autocmd VimEnter * call NERDTreeAddKeyMap({
+    \ 'key': 'w',
+    \ 'callback': s:SNR.'toggle_width',
+    \ 'quickhelpText': 'Toggle window width' })
+
+function! s:toggle_width()
+    let l:max = 0
+    for l:z in range(1, line('$'))
+        let l:len = len(getline(l:z))
+        if l:len > l:max
+            let l:max = l:len
+        endif
+    endfor
+    exe 'vertical resize '.(l:max == winwidth('.') ? g:NERDTreeWinSize : l:max)
+endfunction
