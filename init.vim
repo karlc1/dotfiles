@@ -4,12 +4,14 @@ set noswapfile
 set ignorecase
 set smartcase
 
+set clipboard+=unnamed,unnamedplus
+
 syntax enable
 
 set nuw=1
 
 set completeopt=noinsert
-
+ 
 let g:netrw_liststyle = 3
 
 " transparent background
@@ -21,13 +23,11 @@ au ColorScheme * hi CursorLineNr ctermbg=none guibg=none ctermfg=none ctermbg=no
 " transparent sign column
 au ColorScheme * hi SignColumn ctermbg=none guibg=none ctermfg=none ctermbg=none
 
+au ColorScheme myspecialcolors hi Normal ctermbg=red guibg=red
 
-
-
-"au ColorScheme myspecialcolors hi Normal ctermbg=red guibg=red
-"
 set ts=6 sw=6"
 
+        
 
 
 call plug#begin('~/.vim/plugged')
@@ -65,6 +65,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'scrooloose/nerdcommenter'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'liuchengxu/vista.vim'
+Plug 'beautify-web/js-beautify'
 
 Plug 'voldikss/vim-floaterm'
 
@@ -80,14 +81,11 @@ let g:floaterm_position='center'
 
 map t :FloatermToggle <CR>
 
-nnoremap <leader>x *``cgn
+
+nnoremap <leader>x *``cgn 
 
 
 
-" let colors = ['gruvbox', 'ayu', 'nord']
-" let rand_color = colors[localtime() % len(colors)]
-" execute 'colorscheme' fnameescape(rand_color)
-"colorscheme NeoSolarized
 colorscheme nord
 :highlight LineNr ctermfg=darkgrey
 :highlight CursorLineNr ctermfg=yellow
@@ -261,3 +259,5 @@ function! s:toggle_width()
     endfor
     exe 'vertical resize '.(l:max == winwidth('.') ? g:NERDTreeWinSize : l:max)
 endfunction
+
+autocmd FileType javascript setlocal expandtab tabstop=4 shiftwidth=4 smarttab
