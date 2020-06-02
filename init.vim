@@ -42,7 +42,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'iCyMind/NeoSolarized'
 Plug 'jparise/vim-graphql'
-Plug 'dylanaraps/wal.vim'
+
+Plug 'neovim/nvim-lsp'
 
 " Testing
 Plug 'janko/vim-test'
@@ -84,6 +85,22 @@ map t :FloatermToggle <CR>
 
 nnoremap <leader>x *``cgn 
 
+sign define LspDiagnosticsErrorSign text=✖
+sign define LspDiagnosticsWarningSign text=⚠
+sign define LspDiagnosticsInformationSign text=ℹ
+sign define LspDiagnosticsHintSign text=➤
+function! InitLSP()
+lua << END
+	require'nvim_lsp'.gopls.setup{}
+	require'nvim_lsp'.pyls.setup{}
+END
+endfunction
+
+call InitLSP()
+
+nnoremap <silent> gh <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <silent> gn <cmd>lua vim.lsp.buf.hover()<CR>
+
 
 
 colorscheme nord
@@ -107,7 +124,7 @@ let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#tab_min_count = 2
 
 " Navigation
-nnoremap <Leader>g :GoTestFunc <CR>
+nnoremap <Leader>g :TestNearest <CR>
 nnoremap J 5j
 nnoremap K 5k
 " Exit insert mode in term by esc

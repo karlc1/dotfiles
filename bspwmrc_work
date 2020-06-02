@@ -1,0 +1,52 @@
+#! /bin/sh
+
+xrandr --output DP-2-1 --primary --mode 3440x1440 --pos 1920x0 --rotate normal --output eDP-1 --mode 1920x1080 --pos 0x0 --rotate normal --output HDMI-2 --off --output HDMI-1 --off --output DP-5 --off --output DP-4 --mode 1920x1200 --pos 5360x0 --rotate left --output DP-2 --off --output DP-1 --off &
+sxhkd &
+compton --vsync=opengl-swc --backend=glx --shadow-opacity=0 --glx-no-stencil --glx-no-rebind-pixmap &
+feh --bg-scale ~/Pictures/nord.jpg ~/Pictures/nord.jpg ~/Pictures/nord.jpg &
+/home/karlc/code/cleanfullscreen/cleanfullscreen &
+xscreensaver -no-splash &
+
+bspc monitor eDP-1 -d I II
+bspc monitor DP-2-1 -d III IV
+bspc monitor DP-4 -d V VI 
+
+bspc config single_monocle 	  true
+
+bspc config border_width         2
+bspc config window_gap           35
+
+bspc config -m DP-2-1 top_padding          100
+bspc config -m DP-2-1 bottom_padding       100
+bspc config -m DP-2-1 left_padding         440
+bspc config -m DP-2-1 right_padding        440
+
+bspc config -m DP-2-1 top_monocle_padding          30
+bspc config -m DP-2-1 bottom_monocle_padding       30
+bspc config -m DP-2-1 left_monocle_padding         1000
+bspc config -m DP-2-1 right_monocle_padding        1000
+
+bspc config -m DP-4 top_padding          40
+bspc config -m DP-4 bottom_padding       40
+bspc config -m DP-4 left_padding         40
+bspc config -m DP-4 right_padding        40
+
+bspc config -m DP-4 top_monocle_padding          20
+bspc config -m DP-4 bottom_monocle_padding       20
+bspc config -m DP-4 left_monocle_padding         20
+bspc config -m DP-4 right_monocle_padding        20
+
+bspc config -m eDP-1 top_padding          100
+bspc config -m eDP-1 bottom_padding       100
+bspc config -m eDP-1 left_padding         100
+bspc config -m eDP-1 right_padding        100
+
+bspc config split_ratio          0.5
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+
+#bspc rule -a Gimp desktop='^8' state=floating follow=on
+#bspc rule -a Chromium desktop='^2'
+#bspc rule -a mplayer2 state=floating
+#bspc rule -a Kupfer.py focus=on
+#bspc rule -a Screenkey manage=off
