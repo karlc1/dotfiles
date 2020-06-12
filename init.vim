@@ -27,7 +27,8 @@ au ColorScheme myspecialcolors hi Normal ctermbg=red guibg=red
 
 set ts=6 sw=6"
 
-        
+" Make splits resize to equal width when window size changes
+autocmd VimResized * wincmd =       
 
 
 call plug#begin('~/.vim/plugged')
