@@ -14,12 +14,12 @@ bspc monitor DP-4 -d V VI
 bspc config single_monocle 	  true
 
 bspc config border_width         2
-bspc config window_gap           35
+bspc config window_gap           10
 
-bspc config -m DP-2-1 top_padding          100
-bspc config -m DP-2-1 bottom_padding       100
-bspc config -m DP-2-1 left_padding         440
-bspc config -m DP-2-1 right_padding        440
+bspc config -m DP-2-1 top_padding          10
+bspc config -m DP-2-1 bottom_padding       10
+bspc config -m DP-2-1 left_padding         10
+bspc config -m DP-2-1 right_padding        10
 
 bspc config -m DP-2-1 top_monocle_padding          30
 bspc config -m DP-2-1 bottom_monocle_padding       30

@@ -14,22 +14,24 @@ set completeopt=noinsert
  
 let g:netrw_liststyle = 3
 
-" transparent background
-au ColorScheme * hi Normal ctermbg=none guibg=none ctermfg=none ctermbg=none
-" transparent number row
-au ColorScheme * hi LineNr ctermbg=none guibg=none ctermfg=none ctermbg=none
-" transparent current line number background
+"" transparent background
+"au ColorScheme * hi Normal ctermbg=none guibg=none ctermfg=none ctermbg=none
+"" transparent number row
+"au ColorScheme * hi LineNr ctermbg=none guibg=none ctermfg=none ctermbg=none
+"" transparent current line number background
 au ColorScheme * hi CursorLineNr ctermbg=none guibg=none ctermfg=none ctermbg=none
-" transparent sign column
-au ColorScheme * hi SignColumn ctermbg=none guibg=none ctermfg=none ctermbg=none
+"" transparent sign column
+"au ColorScheme * hi SignColumn ctermbg=none guibg=none ctermfg=none ctermbg=none
 
-au ColorScheme myspecialcolors hi Normal ctermbg=red guibg=red
+"au ColorScheme myspecialcolors hi Normal ctermbg=red guibg=red
 
 set ts=6 sw=6"
 
+" move view instead of cursor near edges
+set so=8
+
 " Make splits resize to equal width when window size changes
 autocmd VimResized * wincmd =       
-
 
 call plug#begin('~/.vim/plugged')
 
@@ -43,12 +45,16 @@ Plug 'tpope/vim-fugitive'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'iCyMind/NeoSolarized'
 Plug 'jparise/vim-graphql'
+Plug 'psliwka/vim-smoothie'
+
+Plug 'ryanoasis/vim-devicons'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 Plug 'neovim/nvim-lsp'
 
 " Testing
 Plug 'janko/vim-test'
-"let test#strategy = "neovim"
+"let test#strategy = \"neovim"
 
 " Navigation
 Plug 'ctrlpvim/ctrlp.vim'
@@ -69,9 +75,19 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'liuchengxu/vista.vim'
 Plug 'beautify-web/js-beautify'
 
+
 Plug 'voldikss/vim-floaterm'
 
 call plug#end()
+
+" show substitute preview
+set inccommand=nosplit
+
+" built in highlight on yank
+augroup LuaHighlight
+  autocmd!
+  autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank()
+augroup END
 
 "set termguicolors
 set t_Co=256
@@ -99,8 +115,9 @@ endfunction
 
 call InitLSP()
 
-nnoremap <silent> gh <cmd>lua vim.lsp.buf.declaration()<CR>
+"nnoremap <silent> gh <cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap <silent> gn <cmd>lua vim.lsp.buf.hover()<CR>
+"nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 
 
 
@@ -126,8 +143,6 @@ let g:airline#extensions#tabline#tab_min_count = 2
 
 " Navigation
 nnoremap <Leader>g :TestNearest <CR>
-nnoremap J 5j
-nnoremap K 5k
 " Exit insert mode in term by esc
 tnoremap <Esc> <C-\><C-n>
 " Go to embedded terminal in new tab on leader-t
@@ -279,3 +294,6 @@ function! s:toggle_width()
 endfunction
 
 autocmd FileType javascript setlocal expandtab tabstop=4 shiftwidth=4 smarttab
+
+silent! nmap <unique> J <Plug>(SmoothieDownwards)
+silent! nmap <unique> K <Plug>(SmoothieUpwards)
