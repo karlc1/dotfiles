@@ -14,16 +14,18 @@ set completeopt=noinsert
  
 let g:netrw_liststyle = 3
 
+
+
 "" transparent background
-"au ColorScheme * hi Normal ctermbg=none guibg=none ctermfg=none ctermbg=none
+au ColorScheme * hi Normal ctermbg=none guibg=none ctermfg=none ctermbg=none
 "" transparent number row
-"au ColorScheme * hi LineNr ctermbg=none guibg=none ctermfg=none ctermbg=none
+au colorScheme * hi LineNr ctermbg=none guibg=none ctermfg=none ctermbg=none
 "" transparent current line number background
 au ColorScheme * hi CursorLineNr ctermbg=none guibg=none ctermfg=none ctermbg=none
 "" transparent sign column
-"au ColorScheme * hi SignColumn ctermbg=none guibg=none ctermfg=none ctermbg=none
+au ColorScheme * hi SignColumn ctermbg=none guibg=none ctermfg=none ctermbg=none
 
-"au ColorScheme myspecialcolors hi Normal ctermbg=red guibg=red
+au ColorScheme myspecialcolors hi Normal ctermbg=red guibg=red
 
 set ts=6 sw=6"
 
@@ -31,7 +33,7 @@ set ts=6 sw=6"
 set so=8
 
 " Make splits resize to equal width when window size changes
-autocmd VimResized * wincmd =       
+" 1:autocmd VimResized * wincmd =       
 
 call plug#begin('~/.vim/plugged')
 
@@ -52,7 +54,7 @@ Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 Plug 'neovim/nvim-lsp'
 
-" Testing
+" T/esting
 Plug 'janko/vim-test'
 "let test#strategy = \"neovim"
 
@@ -96,9 +98,16 @@ let ayucolor="mirage"
 
 let g:floaterm_position='center'
 
+" remove search highlight on esc
+nnoremap <silent> <ESC> :noh <ESC>
+
+" disable automatic jump after seraching for word under cursor
+nnoremap * :let @/ = '<c-r><c-w>' \| set hlsearch<cr>
+
+" disable automatic jump when searching by /
+
 
 map t :FloatermToggle <CR>
-
 
 nnoremap <leader>x *``cgn 
 
@@ -124,7 +133,6 @@ nnoremap <silent> gn <cmd>lua vim.lsp.buf.hover()<CR>
 colorscheme nord
 :highlight LineNr ctermfg=darkgrey
 :highlight CursorLineNr ctermfg=yellow
-
 
 
 if (colors_name ==# 'PaperColor' || colors_name ==# 'NeoSolarized')
