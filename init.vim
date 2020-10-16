@@ -1,5 +1,11 @@
+" //////
 set number relativenumber
+
+nnoremap <SPACE> <Nop>
+
 let mapleader="\\"
+map <Space> <Leader>
+
 set noswapfile
 set ignorecase
 set smartcase
@@ -54,6 +60,8 @@ Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 Plug 'neovim/nvim-lsp'
 
+Plug 'glepnir/dashboard-nvim'
+
 " T/esting
 Plug 'janko/vim-test'
 "let test#strategy = \"neovim"
@@ -106,8 +114,12 @@ nnoremap * :let @/ = '<c-r><c-w>' \| set hlsearch<cr>
 
 " disable automatic jump when searching by /
 
+nmap <silent> gS :vsplit <CR> gd <CR>
+nmap <silent> gT :tab split <CR> gd <CR>
+" monocle mode?
+"nmap <silent> <C-m> :abnew % <CR>
 
-map t :FloatermToggle <CR>
+map <C-t> :FloatermToggle <CR>
 
 nnoremap <leader>x *``cgn 
 
@@ -154,7 +166,7 @@ nnoremap <Leader>g :TestNearest <CR>
 " Exit insert mode in term by esc
 tnoremap <Esc> <C-\><C-n>
 " Go to embedded terminal in new tab on leader-t
-map <Leader>t :tabnew <bar> :term <CR> i git status <CR>
+"map <Leader>t :tabnew <bar> :term <CR> i git status <CR>
 let g:EasyMotion_do_mapping = 0 " Disable default mappings
 nmap s <Plug>(easymotion-overwin-f)
 " JK motions: Line motions
@@ -186,9 +198,9 @@ nnoremap <silent> <expr> <C-e> "\:NERDTreeFind<CR>"
 
 " Misc
 " Auto update buffers when file change on disk, git checkout etc
-autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
-autocmd FileChangedShellPost *
-  \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
+"autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
+"autocmd FileChangedShellPost *
+  "\ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 
 let g:go_fmt_command = "goimports"
@@ -271,7 +283,7 @@ function! <SID>SynStack()
 endfunc
 
 
-let g:qs_highlight_on_keys = ['f', 'F']
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
 let g:NERDTreeWinSize=20
 
@@ -305,3 +317,9 @@ autocmd FileType javascript setlocal expandtab tabstop=4 shiftwidth=4 smarttab
 
 silent! nmap <unique> J <Plug>(SmoothieDownwards)
 silent! nmap <unique> K <Plug>(SmoothieUpwards)
+
+autocmd FileType floaterm nnoremap <buffer> l :FloatermNext<CR>
+autocmd FileType floaterm nnoremap <buffer> h :FloatermPrev<CR>
+autocmd FileType floaterm nnoremap <buffer> n :FloatermNew<CR>
+autocmd FileType floaterm nnoremap <buffer> <ESC> :FloatermHide<CR>
+map <Leader>t :FloatermToggle <CR>
