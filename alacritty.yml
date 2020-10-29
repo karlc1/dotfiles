@@ -172,35 +172,37 @@ font:
 
 # Colors (Nord)
 colors:
-   # Default colors
+   # default colors
    primary:
-     background: '#2E3440' # original nord
-     #background: '#181B21' # Darker nord
-     #background: '#242933' # Semi-dark nord
-     #background: '#000000' # Black bg 
-     foreground: '#D8DEE9'
+     #background: '#2e3440' # original nord
+     #background: '#181b21' # darker nord
+     background: '#242933' # semi-dark nord
+     #background: '#000000' # black bg 
+     foreground: '#d8dee9'
 
-   # Normal colors
+   # normal colors
    normal:
-     black:   '#3B4252'
-     red:     '#BF616A'
-     green:   '#A3BE8C'
-     yellow:  '#EBCB8B'
-     blue:    '#81A1C1'
-     magenta: '#B48EAD'
-     cyan:    '#88C0D0'
-     white:   '#E5E9F0'
+     black:   '#3b4252'
+     red:     '#bf616a'
+     green:   '#a3be8c'
+     yellow:  '#ebcb8b'
+     blue:    '#81a1c1'
+     magenta: '#b48ead'
+     cyan:    '#88c0d0'
+     white:   '#e5e9f0'
 
-   # Bright colors
+   # bright colors
    bright:
-     black:   '#4C566A'
-     red:     '#BF616A'
-     green:   '#A3BE8C'
-     yellow:  '#EBCB8B'
-     blue:    '#81A1C1'
-     magenta: '#B48EAD'
-     cyan:    '#8FBCBB'
-     white:   '#ECEFF4'
+     black:   '#4c566a'
+     red:     '#bf616a'
+     green:   '#a3be8c'
+     yellow:  '#ebcb8b'
+     blue:    '#81a1c1'
+     magenta: '#b48ead'
+     cyan:    '#8fbcbb'
+     white:   '#eceff4'
+
+
 
   # Indexed Colors
   #
@@ -233,7 +235,7 @@ colors:
 #   - Linear
 #
 # Specifying a `duration` of `0` will disable the visual bell.
-visual_bell:
+bell:
   animation: EaseOutExpo
   duration: 10
   color: '#ffffff'
@@ -243,7 +245,7 @@ visual_bell:
 # Window opacity as a floating point number from `0.0` to `1.0`.
 # The value `0.0` is completely transparent and `1.0` is opaque.
 #background_opacity: 0.65
-background_opacity: 1
+background_opacity: 0.8
 
 selection:
   #semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"

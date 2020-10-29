@@ -36,6 +36,7 @@ autocmd VimResized * wincmd =
 call plug#begin('~/.vim/plugged')
 
 " ColorSchemes and visuals
+Plug 'lifepillar/vim-colortemplate'
 Plug 'ayu-theme/ayu-vim'
 Plug 'morhetz/gruvbox' 
 Plug 'arcticicestudio/nord-vim'
@@ -51,6 +52,8 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 Plug 'neovim/nvim-lsp'
+
+Plug 'karlc1/lovecraft-vim'
 
 " Testing
 Plug 'janko/vim-test'
@@ -97,7 +100,7 @@ let ayucolor="mirage"
 let g:floaterm_position='center'
 
 
-map t :FloatermToggle <CR>
+"map t :FloatermToggle <CR>
 
 
 nnoremap <leader>x *``cgn 
@@ -297,3 +300,11 @@ autocmd FileType javascript setlocal expandtab tabstop=4 shiftwidth=4 smarttab
 
 silent! nmap <unique> J <Plug>(SmoothieDownwards)
 silent! nmap <unique> K <Plug>(SmoothieUpwards)
+
+nmap <C-x> :call <SID>SynStack()<CR>
+function! <SID>SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
