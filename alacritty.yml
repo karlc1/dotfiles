@@ -166,11 +166,11 @@ font:
   # This is a global setting and will require a log out or restart to take
   # effect.
   #use_thin_strokes: true
+  #
+  #
+  #
 
-# If `true`, bold text is drawn using the bright color variants.
-#draw_bold_text_with_bright_colors: false
 
-# Colors (Nord)
 colors:
    # default colors
    primary:
@@ -201,8 +201,6 @@ colors:
      magenta: '#b48ead'
      cyan:    '#8fbcbb'
      white:   '#eceff4'
-
-
 
   # Indexed Colors
   #
@@ -237,15 +235,14 @@ colors:
 # Specifying a `duration` of `0` will disable the visual bell.
 bell:
   animation: EaseOutExpo
-  duration: 10
+  duration: 0
   color: '#ffffff'
 
 # Background opacity
 #
 # Window opacity as a floating point number from `0.0` to `1.0`.
 # The value `0.0` is completely transparent and `1.0` is opaque.
-#background_opacity: 0.65
-background_opacity: 0.8
+background_opacity: 1
 
 selection:
   #semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"

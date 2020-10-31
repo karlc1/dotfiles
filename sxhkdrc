@@ -4,7 +4,8 @@
 
 # terminal emulator
 super + Return
-	alacritty	
+	bspc node -t tiled; \
+	alacritty
 
 # program launcher
 #super + @space
@@ -30,13 +31,18 @@ super + alt + {q,r}
 super + {_,shift + }w
 	bspc node -{c,k}
 
+super + shift + m
+	bspc desktop -l next
+
 # alternate between the tiled and fullscreen layout
 super + m
 	if [ -z "$(bspc query -N -n focused.fullscreen)" ]; then \                    
-        bspc node focused -t fullscreen; \                                        
-    else \                                                                      
-        bspc node focused -t tiled; \                                           
-    fi
+		pkill polybar; \
+		bspc node focused -t fullscreen; \                                        
+	else \                                                                      
+		polybar example 2>/dev/null & \
+		bspc node focused -t tiled; \                                           
+	fi
 
 # send the newest marked node to the newest preselected node
 super + y
@@ -110,6 +116,9 @@ super + ctrl + {1-9}
 # cancel the preselection for the focused node
 super + ctrl + space
 	bspc node -p cancel
+
+super + space
+	togglelayout
 
 # cancel the preselection for the focused desktop
 super + ctrl + shift + space

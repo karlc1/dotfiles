@@ -1,5 +1,11 @@
+" //////
 set number relativenumber
+
+nnoremap <SPACE> <Nop>
+
 let mapleader="\\"
+map <Space> <Leader>
+
 set noswapfile
 set ignorecase
 set smartcase
@@ -14,16 +20,18 @@ set completeopt=noinsert
  
 let g:netrw_liststyle = 3
 
+
+
 "" transparent background
-"au ColorScheme * hi Normal ctermbg=none guibg=none ctermfg=none ctermbg=none
+au ColorScheme * hi Normal ctermbg=none guibg=none ctermfg=none ctermbg=none
 "" transparent number row
-"au ColorScheme * hi LineNr ctermbg=none guibg=none ctermfg=none ctermbg=none
+au colorScheme * hi LineNr ctermbg=none guibg=none ctermfg=none ctermbg=none
 "" transparent current line number background
 au ColorScheme * hi CursorLineNr ctermbg=none guibg=none ctermfg=none ctermbg=none
 "" transparent sign column
-"au ColorScheme * hi SignColumn ctermbg=none guibg=none ctermfg=none ctermbg=none
+au ColorScheme * hi SignColumn ctermbg=none guibg=none ctermfg=none ctermbg=none
 
-"au ColorScheme myspecialcolors hi Normal ctermbg=red guibg=red
+au ColorScheme myspecialcolors hi Normal ctermbg=red guibg=red
 
 set ts=6 sw=6"
 
@@ -31,7 +39,7 @@ set ts=6 sw=6"
 set so=8
 
 " Make splits resize to equal width when window size changes
-autocmd VimResized * wincmd =       
+" 1:autocmd VimResized * wincmd =       
 
 call plug#begin('~/.vim/plugged')
 
@@ -53,9 +61,6 @@ Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 Plug 'neovim/nvim-lsp'
 
-Plug 'karlc1/lovecraft-vim'
-
-" Testing
 Plug 'janko/vim-test'
 "let test#strategy = \"neovim"
 
@@ -99,9 +104,18 @@ let ayucolor="mirage"
 
 let g:floaterm_position='center'
 
+" remove search highlight on esc
+nnoremap <silent> <ESC> :noh <ESC>
 
-"map t :FloatermToggle <CR>
+" disable automatic jump after seraching for word under cursor
+nnoremap * :let @/ = '<c-r><c-w>' \| set hlsearch<cr>
 
+" disable automatic jump when searching by /
+
+nmap <silent> gS :vsplit <CR> gd <CR>
+nmap <silent> gT :tab split <CR> gd <CR>
+
+map <C-t> :FloatermToggle <CR>
 
 nnoremap <leader>x *``cgn 
 
@@ -129,7 +143,6 @@ colorscheme nord
 :highlight CursorLineNr ctermfg=yellow
 
 
-
 if (colors_name ==# 'PaperColor' || colors_name ==# 'NeoSolarized')
 	let g:clap_theme = 'material_design_dark'
 endif
@@ -149,7 +162,7 @@ nnoremap <Leader>g :TestNearest <CR>
 " Exit insert mode in term by esc
 tnoremap <Esc> <C-\><C-n>
 " Go to embedded terminal in new tab on leader-t
-map <Leader>t :tabnew <bar> :term <CR> i git status <CR>
+"map <Leader>t :tabnew <bar> :term <CR> i git status <CR>
 let g:EasyMotion_do_mapping = 0 " Disable default mappings
 nmap s <Plug>(easymotion-overwin-f)
 " JK motions: Line motions
@@ -181,9 +194,9 @@ nnoremap <silent> <expr> <C-e> "\:NERDTreeFind<CR>"
 
 " Misc
 " Auto update buffers when file change on disk, git checkout etc
-autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
-autocmd FileChangedShellPost *
-  \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
+"autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
+"autocmd FileChangedShellPost *
+  "\ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 
 let g:go_fmt_command = "goimports"
@@ -266,7 +279,7 @@ function! <SID>SynStack()
 endfunc
 
 
-let g:qs_highlight_on_keys = ['f', 'F']
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
 let g:NERDTreeWinSize=20
 
@@ -308,3 +321,9 @@ function! <SID>SynStack()
   endif
   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
+
+autocmd FileType floaterm nnoremap <buffer> l :FloatermNext<CR>
+autocmd FileType floaterm nnoremap <buffer> h :FloatermPrev<CR>
+autocmd FileType floaterm nnoremap <buffer> n :FloatermNew<CR>
+autocmd FileType floaterm nnoremap <buffer> <ESC> :FloatermHide<CR>
+map <Leader>t :FloatermToggle <CR>
