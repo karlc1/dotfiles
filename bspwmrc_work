@@ -8,8 +8,7 @@ feh --bg-scale ~/Pictures/nord.png ~/Pictures/nord.png ~/Pictures/nord.png &
 xscreensaver -no-splash &
 
 bspc monitor eDP-1 -d I II
-bspc monitor DP-2-1 -d III IV
-bspc monitor DP-4 -d V VI 
+bspc monitor DP-2-1 -d III IV V VI VII VIII IX X
 
 bspc config single_monocle 	  true
 

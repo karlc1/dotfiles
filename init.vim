@@ -1,88 +1,63 @@
-" //////
 set number relativenumber
 
+" disable step on space
 nnoremap <SPACE> <Nop>
 
+" set \ as leader
 let mapleader="\\"
+
+" set space as leader
 map <Space> <Leader>
 
 set noswapfile
 set ignorecase
 set smartcase
-
-set clipboard+=unnamed,unnamedplus
-
 syntax enable
-
+"set clipboard+=unnamed
 set nuw=1
-
 set completeopt=noinsert
- 
 let g:netrw_liststyle = 3
 
 
-
-"" transparent background
-au ColorScheme * hi Normal ctermbg=none guibg=none ctermfg=none ctermbg=none
-"" transparent number row
-au colorScheme * hi LineNr ctermbg=none guibg=none ctermfg=none ctermbg=none
-"" transparent current line number background
-au ColorScheme * hi CursorLineNr ctermbg=none guibg=none ctermfg=none ctermbg=none
-"" transparent sign column
-au ColorScheme * hi SignColumn ctermbg=none guibg=none ctermfg=none ctermbg=none
-
-au ColorScheme myspecialcolors hi Normal ctermbg=red guibg=red
-
 set ts=6 sw=6"
 
-" move view instead of cursor near edges
-set so=8
-
 " Make splits resize to equal width when window size changes
-" 1:autocmd VimResized * wincmd =       
+autocmd VimResized * wincmd =       
 
 call plug#begin('~/.vim/plugged')
 
 " ColorSchemes and visuals
-Plug 'lifepillar/vim-colortemplate'
 Plug 'ayu-theme/ayu-vim'
-Plug 'morhetz/gruvbox' 
 Plug 'arcticicestudio/nord-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive'
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'iCyMind/NeoSolarized'
 Plug 'jparise/vim-graphql'
-Plug 'psliwka/vim-smoothie'
+Plug 'mhartington/oceanic-next'
+
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 
 Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
-Plug 'neovim/nvim-lsp'
-
-Plug 'janko/vim-test'
-"let test#strategy = \"neovim"
-
 " Navigation
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'easymotion/vim-easymotion'
-Plug 'mileszs/ack.vim'
-Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
-"Plug 'kshenoy/vim-signature'
 Plug 'unblevable/quick-scope'
 
 " Language integration
-Plug 'rust-lang/rust.vim'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-"Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+" Plug 'leafgarland/typescript-vim'
+" Plug 'peitalin/vim-jsx-typescript'
+" Plug 'pangloss/vim-javascript'
+
+
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'scrooloose/nerdcommenter'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'liuchengxu/vista.vim'
 Plug 'beautify-web/js-beautify'
-
 
 Plug 'voldikss/vim-floaterm'
 
@@ -97,10 +72,15 @@ augroup LuaHighlight
   autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank()
 augroup END
 
-"set termguicolors
-set t_Co=256
-set background=light
+
+
+set termguicolors
 let ayucolor="mirage"
+set t_Co=256
+set background=dark
+colorscheme OceanicNext
+highlight Normal ctermbg=NONE
+highlight nonText ctermbg=NONE
 
 let g:floaterm_position='center'
 
@@ -112,33 +92,30 @@ nnoremap * :let @/ = '<c-r><c-w>' \| set hlsearch<cr>
 
 " disable automatic jump when searching by /
 
-nmap <silent> gS :vsplit <CR> gd <CR>
-nmap <silent> gT :tab split <CR> gd <CR>
+nmap <silent> <Leader>gs :call CocAction('jumpDefinition', 'vsplit') <CR>
+nmap <silent> <Leader>gt :call CocAction('jumpDefinition', 'tabe') <CR>
+
+let g:fzf_layout = { 'down':  '40%'}
+
+" monocle mode?
+"nmap <silent> <C-m> :abnew % <CR>
 
 map <C-t> :FloatermToggle <CR>
 
-nnoremap <leader>x *``cgn 
-
-sign define LspDiagnosticsErrorSign text=✖
-sign define LspDiagnosticsWarningSign text=⚠
-sign define LspDiagnosticsInformationSign text=ℹ
-sign define LspDiagnosticsHintSign text=➤
-function! InitLSP()
-lua << END
-	require'nvim_lsp'.gopls.setup{}
-	require'nvim_lsp'.pyls.setup{}
-END
-endfunction
-
-call InitLSP()
-
 "nnoremap <silent> gh <cmd>lua vim.lsp.buf.declaration()<CR>
-nnoremap <silent> gn <cmd>lua vim.lsp.buf.hover()<CR>
+"nnoremap <silent> gn <cmd>lua vim.lsp.buf.hover()<CR>
+"nnoremap gi    <cmd>lua vim.lsp.buf.implementation()<CR>
+
+nnoremap J 3j 
+nnoremap K 3k
+
 "nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+"
+" set filetypes as typescript.tsx
+autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
 
 
 
-colorscheme nord
 :highlight LineNr ctermfg=darkgrey
 :highlight CursorLineNr ctermfg=yellow
 
@@ -153,9 +130,37 @@ let NERDTreeMinimalUI = 1
 let g:netrw_banner = 0
 set splitbelow
 set splitright
-set statusline +=\ %{FugitiveStatusline()}
+"set statusline +=\ %{FugitiveStatusline()}
+"
+
+""""" AIRLINE STATUS BAR 
 let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#tab_min_count = 2
+let g:airline#extensions#branch#enabled = 0
+let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
+let g:airline_section_x=''
+let g:airline_skip_empty_sections = 1
+let g:airline#extensions#whitespace#enabled = 0
+
+let g:airline#extensions#tabline#enabled = 1           
+let g:airline#extensions#tabline#show_close_button = 0 
+let g:airline#extensions#tabline#tabs_label = ''       
+let g:airline#extensions#tabline#buffers_label = ''    
+let g:airline#extensions#tabline#fnamemod = ':t'       
+let g:airline#extensions#tabline#show_tab_count = 0               
+let g:airline#extensions#tabline#show_buffers = 0      
+let g:airline#extensions#tabline#tab_min_count = 2     
+let g:airline#extensions#tabline#show_splits = 0       
+let g:airline#extensions#tabline#show_tab_nr = 0       
+let g:airline#extensions#tabline#show_tab_type = 0     
+
+let g:webdevicons_enable_airline_tabline = 0
+let g:webdevicons_enable_airline_statusline = 0
+let g:webdevicons_enable_airline_statusline_fileformat_symbols = 0
+""""""""""""""""""""""""""""
+
+vnoremap <Leader>y "+y
+nnoremap <Leader>y "+y
+
 
 " Navigation
 nnoremap <Leader>g :TestNearest <CR>
@@ -179,11 +184,8 @@ map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
 
-" Ack 
-"cnoreabbrev Ack Ack! --smart-case
-cnoreabbrev ack Ack! --smart-case
-"nnoremap <Leader>a :Ack! --smart-case<Space>
-noremap <Leader>a :Ack! <cword><cr>
+" search word under cursor
+noremap <Leader>a :Rg! <C-R><C-W><CR>
 
 " let CoC handle completion
 let g:go_code_completion_enabled = 0
@@ -232,52 +234,14 @@ inoremap <silent><expr> <c-space> coc#refresh()
 
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
-" nmap <silent> gD :vsplit <CR> gd <CR>
-nmap <silent> gDS :vsplit <CR> gd <CR>
-nmap <silent> gDT :tab split <CR> gd <CR>
-nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+nmap <silent> gi <Plug>(coc-implementation)
 
-map <Leader>o :Clap tags <CR>
-"map <Leader>o :CtrlPBufTag <CR>
-map <Leader>p :Clap files<CR>
-"map <Leader>p :CtrlP<CR>
-"
-"
-"
-"
+map <Leader>p :Files<CR>
 
- ":vnew
- ":vnew
- ":wincmd R
+command! -bang -nargs=* Ag call fzf#vim#ag_interactive(<q-args>, fzf#vim#with_preview('right:50%:hidden', 'alt-h'))
 
-"augroup Apan
-"au! VimEnter * nested vnew 
-"augroup end
-
-"augroup Bapan
-"au! VimEnter * nested vnew
-"augroup end
-
-"augroup Capan
-"au! VimEnter * :40vnew | :40vnew | wincmd r | wincmd l | echo 'apan'
-"augroup end
-
-"let g:go_version_warning = 0
-"let g:go_code_completion_enabled = 0
-"let g:go_auto_type_info = 0
-"let g:go_def_mapping_enabled = 0
 let g:go_doc_keywordprg_enabled = 0
-
-
-map <Leader> q :call <SID>SynStack()<CR>
-function! <SID>SynStack()
-  if !exists("*synstack")
-    return
-  endif
-  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc
-
 
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
@@ -314,16 +278,31 @@ autocmd FileType javascript setlocal expandtab tabstop=4 shiftwidth=4 smarttab
 silent! nmap <unique> J <Plug>(SmoothieDownwards)
 silent! nmap <unique> K <Plug>(SmoothieUpwards)
 
-nmap <C-x> :call <SID>SynStack()<CR>
-function! <SID>SynStack()
-  if !exists("*synstack")
-    return
-  endif
-  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc
-
 autocmd FileType floaterm nnoremap <buffer> l :FloatermNext<CR>
 autocmd FileType floaterm nnoremap <buffer> h :FloatermPrev<CR>
 autocmd FileType floaterm nnoremap <buffer> n :FloatermNew<CR>
 autocmd FileType floaterm nnoremap <buffer> <ESC> :FloatermHide<CR>
 map <Leader>t :FloatermToggle <CR>
+
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
+
+" Always set keyboard layout to US in when entering vim client window
+" or starting vim. Requires EWMH compiant window manager and terminal.
+" For DWM, use ewmhtags patch and focusonnetactive patch to enable. 
+autocmd FocusGained,VimEnter * :silent exec "! setxkbmap us &"
+
+let $BAT_THEME='Nord'
+
+function! RipgrepFzf(query, fullscreen)
+  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
+  let initial_command = printf(command_fmt, shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}')
+  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
+
+command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+
+
+nnoremap <Leader>o :Vista finder coc <CR>
