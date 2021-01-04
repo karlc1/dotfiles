@@ -3,6 +3,7 @@ set number relativenumber
 " disable step on space
 nnoremap <SPACE> <Nop>
 
+
 " set \ as leader
 let mapleader="\\"
 
@@ -46,20 +47,24 @@ Plug 'scrooloose/nerdtree'
 Plug 'easymotion/vim-easymotion'
 Plug 'unblevable/quick-scope'
 
+""""""""""""""""""""""
 " Language integration
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " Plug 'leafgarland/typescript-vim'
 " Plug 'peitalin/vim-jsx-typescript'
 " Plug 'pangloss/vim-javascript'
+"""""""""""""""""""""""""
 
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'antoinemadec/coc-fzf', {'branch': 'release'}
 Plug 'scrooloose/nerdcommenter'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'liuchengxu/vista.vim'
 Plug 'beautify-web/js-beautify'
 
 Plug 'voldikss/vim-floaterm'
+
+Plug 'vim-test/vim-test'
 
 call plug#end()
 
@@ -95,12 +100,10 @@ nnoremap * :let @/ = '<c-r><c-w>' \| set hlsearch<cr>
 nmap <silent> <Leader>gs :call CocAction('jumpDefinition', 'vsplit') <CR>
 nmap <silent> <Leader>gt :call CocAction('jumpDefinition', 'tabe') <CR>
 
-let g:fzf_layout = { 'down':  '40%'}
+"let g:fzf_layout = { 'down':  '40%'}
 
 " monocle mode?
 "nmap <silent> <C-m> :abnew % <CR>
-
-map <C-t> :FloatermToggle <CR>
 
 "nnoremap <silent> gh <cmd>lua vim.lsp.buf.declaration()<CR>
 "nnoremap <silent> gn <cmd>lua vim.lsp.buf.hover()<CR>
@@ -163,9 +166,9 @@ nnoremap <Leader>y "+y
 
 
 " Navigation
-nnoremap <Leader>g :TestNearest <CR>
+"nnoremap <Leader>g :TestNearest <CR>
 " Exit insert mode in term by esc
-tnoremap <Esc> <C-\><C-n>
+"tnoremap <Esc> <C-\><C-n>
 " Go to embedded terminal in new tab on leader-t
 "map <Leader>t :tabnew <bar> :term <CR> i git status <CR>
 let g:EasyMotion_do_mapping = 0 " Disable default mappings
@@ -208,7 +211,7 @@ let g:go_fmt_command = "goimports"
 " if hidden is not set, TextEdit might fail.
 set hidden
 " Better display for messages
-set cmdheight=2
+set cmdheight=1
 " Smaller updatetime for CursorHold & CursorHoldI
 set updatetime=600
 " don't give |ins-completion-menu| messages.
@@ -236,6 +239,7 @@ inoremap <silent><expr> <c-space> coc#refresh()
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gr <Plug>(coc-references)
 nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gl <Plug>(coc-type-definition)
 
 map <Leader>p :Files<CR>
 
@@ -306,3 +310,35 @@ command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
 
 nnoremap <Leader>o :Vista finder coc <CR>
+
+au TermOpen * tnoremap <buffer> <Esc> <c-\><c-n>
+au FileType fzf tunmap <buffer> <Esc>
+
+
+" Go to tab by number
+noremap <leader>1 1gt
+noremap <leader>2 2gt
+noremap <leader>3 3gt
+noremap <leader>4 4gt
+noremap <leader>5 5gt
+noremap <leader>6 6gt
+noremap <leader>7 7gt
+noremap <leader>8 8gt
+noremap <leader>9 9gt
+noremap <leader>0 :tablast<cr>
+noremap <leader>l :tabnext<cr>
+noremap <leader>h :tabprevious<cr>
+noremap <leader>n :tabnew<cr>
+
+let g:go_highlight_trailing_whitespace_error=0
+
+nmap <silent> <Leader>dn :call CocAction('diagnosticNext')<CR>
+nmap <silent> <Leader>dp :call CocAction('diagnosticPrevious')<CR>
+nmap <silent> <Leader>dl :CocFzfList diagnostics<CR>
+
+let test#go#runner = 'gotest'
+let test#strategy = 'floaterm'
+
+" use `:OR` for organize import of current buffer
+command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
+autocmd BufWritePre *.go :OR

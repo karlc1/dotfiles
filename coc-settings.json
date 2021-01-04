@@ -1,29 +1,42 @@
 {
-"yaml.customTags": [
-        "!fn",
-        "!And",
-        "!If",
-        "!Not",
-        "!Equals",
-        "!Or",
-        "!FindInMap sequence",
-        "!Base64",
-        "!Cidr",
-        "!Ref",
-        "!Sub",
-        "!GetAtt",
-        "!GetAZs",
-        "!ImportValue",
-        "!Select",
-        "!Split",
-        "!Join sequence",
-        "!Select sequence"
-   ],
-   "yaml.format.enable": true,
-   "python.pythonPath": "python3",
-   "python.jediEnabled": true,
-   "python.jediPath": "/home/linuxbrew/.linuxbrew/lib/python3.7/site-packages/",
-   "suggest.autoTrigger": "none",
+  "python.pythonPath": "python3",
+  "python.jediEnabled": true,
+  "python.jediPath": "/home/linuxbrew/.linuxbrew/lib/python3.7/site-packages/",
 
-   "suggest.removeDuplicateItems": true
+  "coc.preferences.formatOnSaveFiletypes": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "go",
+    "json"
+  ],
+  "tsserver.formatOnType": true,
+  "eslint.nodePath": "/home/karlc/.nvm/versions/node/v12.19.0/bin/node",
+  "tsserver.npm": "/home/karlc/.nvm/versions/node/v12.19.0/bin/npm",
+  "npm.binPath": "/home/karlc/.nvm/versions/node/v12.19.0/bin/npm",
+  "languageserver": {
+    "golang": {
+      "command": "gopls",
+      "rootPatterns": ["go.mod", ".git/"],
+      "filetypes": ["go"],
+      "initializationOptions": {
+        "completeUnimported": true
+      }
+    }
+  },
+
+  "suggest.removeDuplicateItems": true,
+  "suggest.autoTrigger": "none",
+  "suggest.disableMenu": true,
+
+  "diagnostic.enable": true,
+  "diagnostic.level": "warning",
+  "diagnostic.messageDelay": 0,
+
+  "codeLens.enable": false,
+
+  "coc.preferences.useQuickfixForLocations": true,
+  "coc.preferences.formatOnType": true,
+  "coc.preferences.messageLevel": "error"
 }
