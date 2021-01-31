@@ -17,6 +17,9 @@ Plug 'cocopon/iceberg.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'glepnir/dashboard-nvim'
 
+Plug 'easymotion/vim-easymotion'
+Plug 'haya14busa/vim-easyoperator-line'
+
 call plug#end()
 
 
@@ -162,6 +165,13 @@ require'nvim-treesitter.configs'.setup {
 EOF
 
 
+" --- EASYMOTION SETTINGS ---
+nmap ss <Plug>(easymotion-overwin-f)
+imap sv <Plug>(easyoperator-line-select)
+nmap sd <Plug>(easyoperator-line-delete)
+nmap sy <Plug>(easyoperator-line-yank)
+
+
 " --- MISC SETTINGS ---
 
 " show substitute preview 
@@ -207,3 +217,8 @@ let g:dashboard_custom_header = [
     \'     ⠸⠿  ⠿  ⠸⠿  ⠿⠷⠶⠿⠃⠸⠿⠄⠙⠷⠤⠿⠉⠉⠿⠆   ',
     \'',
     \]
+
+
+nnoremap J 2<C-e>
+nnoremap K 2<C-y>
+
