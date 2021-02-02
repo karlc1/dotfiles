@@ -12,13 +12,14 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'glepnir/lspsaga.nvim'
 Plug 'b3nj5m1n/kommentary'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-
 Plug 'cocopon/iceberg.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'glepnir/dashboard-nvim'
-
 Plug 'easymotion/vim-easymotion'
 Plug 'haya14busa/vim-easyoperator-line'
+Plug 'vim-test/vim-test'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'tpope/vim-fugitive'
 
 call plug#end()
 
@@ -36,6 +37,8 @@ lua require'lspconfig'.gopls.setup{}
 lua require'lspconfig'.vimls.setup{}
 lua require'lspconfig'.bashls.setup{}
 lua require'lspconfig'.ccls.setup{}
+lua require'lspconfig'.tsserver.setup{}
+lua require'lspconfig'.graphql.setup{}
 
 " LSP keybindings
 nnoremap gd <Cmd>lua vim.lsp.buf.definition()<CR>
@@ -167,9 +170,21 @@ EOF
 
 " --- EASYMOTION SETTINGS ---
 nmap ss <Plug>(easymotion-overwin-f)
-imap sv <Plug>(easyoperator-line-select)
 nmap sd <Plug>(easyoperator-line-delete)
 nmap sy <Plug>(easyoperator-line-yank)
+nmap sv <Plug>(easyoperator-line-select)
+
+
+" --- VIMTEST SETTINGS ---
+nmap <silent> <Leader> tn :TestNearest<CR>
+nmap <silent> <Leader> tf :TestFile<CR>
+nmap <silent> <Leader> ts :TestSuite<CR>
+nmap <silent> <Leader> tl :TestLast<CR>
+nmap <silent> <Leader> tv :TestVisit<CR>
+
+" use gotest instead of go test, adds color
+let test#go#runner = 'gotest'
+
 
 
 " --- MISC SETTINGS ---
@@ -219,6 +234,30 @@ let g:dashboard_custom_header = [
     \]
 
 
-nnoremap J 2<C-e>
-nnoremap K 2<C-y>
+" scroll on J and K
+nnoremap J <C-e>
+nnoremap K <C-y>
 
+" set keyboard map to US on enter nvim
+autocmd FocusGained,VimEnter * :silent exec "! setxkbmap us &"
+
+" yank to system clipboard on leader
+vnoremap <Leader>y "+y
+nnoremap <Leader>y "+y
+
+set splitbelow
+set splitright
+let g:netrw_banner = 0
+
+nnoremap <silent> <ESC> :noh <ESC>
+" disable automatic jump after seraching for word under cursor
+nnoremap * :let @/ = '<c-r><c-w>' \| set hlsearch<cr>
+" Navigate splits without w prefix
+map <C-h> <C-w>h
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+map <C-l> <C-w>l
+
+
+
+autocmd FileType yaml setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
