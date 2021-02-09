@@ -39,6 +39,7 @@ lua require'lspconfig'.bashls.setup{}
 lua require'lspconfig'.ccls.setup{}
 lua require'lspconfig'.tsserver.setup{}
 lua require'lspconfig'.graphql.setup{}
+lua require'lspconfig'.yamlls.setup{}
 
 " LSP keybindings
 nnoremap gd <Cmd>lua vim.lsp.buf.definition()<CR>
@@ -79,7 +80,12 @@ nnoremap <silent> <leader>df :LspSagaCodeAction<CR>
 set completeopt=menu,menuone,noselect
 
 " confirm autocomplete selection on CR
-inoremap <silent><expr> <CR>  compe#confirm('<CR>')
+
+" without demlimitMate
+" inoremap <silent><expr> <CR>  compe#confirm('<CR>')
+" with delimitMate
+inoremap <silent><expr> <CR>  compe#confirm({ 'keys': "\<Plug>delimitMateCR", 'mode': '' })
+
 
 " close autocomplete menu on ESC if it's open
 inoremap <silent><expr> <ESC> pumvisible() ? compe#close('<C-e>') : "<ESC>"
@@ -185,6 +191,24 @@ nmap <silent> <Leader> tv :TestVisit<CR>
 " use gotest instead of go test, adds color
 let test#go#runner = 'gotest'
 
+" --- KOMMENTARY SETTINGS ---
+
+" disable default key bindings
+" vim.g.kommentary_create_default_mappings = false
+
+" use single line comments, no indent and ignore whitespace
+lua << EOF
+require('kommentary.config').configure_language("default", {
+    prefer_single_line_comments = true,
+    use_consistent_indentation = true,
+    ignore_whitespace = true,
+
+    vim.api.nvim_set_keymap("n", "<leader>c", "<Plug>kommentary_line_default", {}),
+    vim.api.nvim_set_keymap("v", "<leader>c", "<Plug>kommentary_visual_default", {})
+})
+EOF
+
+
 
 
 " --- MISC SETTINGS ---
@@ -199,7 +223,23 @@ set noswapfile
 set ignorecase
 set smartcase
 
+
+" --- NETRW SETTINGS ---
+"
 let g:netrw_liststyle = 3
+let g:netrw_banner = 0
+let g:netrw_browse_split = 0
+let netrw_altv=1
+
+" expand current files parent directory on enter netrw 
+autocmd VimEnter * com! -nargs=* -bar -bang -count=0 -complete=dir  Explore execute "call netrw#Explore(<count>,0,0+<bang>0,<q-args>)" . ' | call SearchNetrw(' . string(expand('%:t')) . ')'
+function! SearchNetrw(fname)
+    if ! search('\V\^' . a:fname . '\$')
+        call search('^' . substitute(a:fname, '\w\zs.*', '', '') . '.*\/\@<!$')
+    endif
+endfunction
+
+
 
 
 let mapleader="\\"
