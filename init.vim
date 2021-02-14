@@ -21,6 +21,11 @@ Plug 'vim-test/vim-test'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-fugitive'
 
+Plug 'junegunn/fzf'
+Plug 'gfanto/fzf-lsp.nvim'
+Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+Plug 'scrooloose/nerdtree'
+
 call plug#end()
 
 
@@ -42,9 +47,12 @@ lua require'lspconfig'.graphql.setup{}
 lua require'lspconfig'.yamlls.setup{}
 
 " LSP keybindings
-nnoremap gd <Cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap gi <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap gr <cmd>lua require('telescope.builtin').lsp_references()<cr>
+nnoremap gd  <Cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap gD <cmd>tab split \| lua vim.lsp.buf.definition()<cr>
+nnoremap gV <cmd>vsp \| lua vim.lsp.buf.definition()<cr> 
+nnoremap gS <cmd>sp \| lua vim.lsp.buf.definition()<cr>
+nnoremap gi :Implementations<CR>
+nnoremap gr :References<cr>
 
 " Misc LSP settings
 
@@ -52,7 +60,6 @@ nnoremap gr <cmd>lua require('telescope.builtin').lsp_references()<cr>
 let g:go_highlight_trailing_whitespace_error=0
 " auto foramt on save
 autocmd BufWritePre * silent! lua vim.lsp.buf.formatting_sync()
-
 
 " auto import on save in Go
 let g:go_fmt_command = "goimports"
@@ -68,8 +75,7 @@ nnoremap <silent> gH <cmd>lua require('lspsaga.signaturehelp').signature_help()<
 
 nnoremap <leader>dn <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
 nnoremap <leader>dp <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
-
-nnoremap <leader>I <cmd>lua vim.lsp.buf.code_action()<CR>
+nnoremap <leader>dl :Diagnostics<CR>
 
 
 
@@ -299,4 +305,18 @@ map <C-l> <C-w>l
 
 
 
-autocmd FileType yaml setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+" Only line number for current line is highlited
+set cursorline
+highlight clear CursorLine
+highlight clear CursorLineNr
+
+
+" --- NEDTREE SETTINGS ---
+
+nnoremap <C-e> :NERDTreeFind <CR>
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
+let NERDTreeQuitOnOpen = 1
+" Exit Vim if NERDTree is the only window left.
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() |
+    \ quit | endif
