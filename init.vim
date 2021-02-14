@@ -65,12 +65,11 @@ EOF
 nnoremap <silent> gR <cmd>lua require('lspsaga.rename').rename()<CR>
 nnoremap <silent> gh <cmd>lua require('lspsaga.hover').render_hover_doc()<CR>
 nnoremap <silent> gH <cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>
-nnoremap <silent> gD :LspSagaFinder<CR>
 
-nnoremap <silent> <leader>dd :LspSagaShowLineDiags<CR>
-nnoremap <silent> <leader>dp :LspSagaDiagJumpPrev<CR>
-nnoremap <silent> <leader>dn :LspSagaDiagJumpNext<CR>
-nnoremap <silent> <leader>df :LspSagaCodeAction<CR>
+nnoremap <leader>dn <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+nnoremap <leader>dp <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
+
+nnoremap <leader>I <cmd>lua vim.lsp.buf.code_action()<CR>
 
 
 
