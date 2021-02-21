@@ -44,7 +44,7 @@ lua require'lspconfig'.bashls.setup{}
 lua require'lspconfig'.ccls.setup{}
 lua require'lspconfig'.tsserver.setup{}
 lua require'lspconfig'.graphql.setup{}
-lua require'lspconfig'.yamlls.setup{}
+" lua require'lspconfig'.yamlls.setup{}
 
 " LSP keybindings
 nnoremap gd  <Cmd>lua vim.lsp.buf.definition()<CR>
@@ -227,6 +227,7 @@ au TextYankPost * silent! lua vim.highlight.on_yank()
 set noswapfile
 set ignorecase
 set smartcase
+set ai
 
 
 " --- NETRW SETTINGS ---
@@ -313,10 +314,34 @@ highlight clear CursorLineNr
 
 " --- NEDTREE SETTINGS ---
 
-nnoremap <C-e> :NERDTreeFind <CR>
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeQuitOnOpen = 1
 " Exit Vim if NERDTree is the only window left.
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() |
     \ quit | endif
+
+let g:firenvim_config = { 
+    \ 'globalSettings': {
+        \ 'alt': 'all',
+    \  },
+    \ 'localSettings': {
+        \ '.*': {
+            \ 'cmdline': 'neovim',
+            \ 'content': 'text',
+            \ 'priority': 0,
+            \ 'selector': 'textarea',
+            \ 'takeover': 'never',
+        \ },
+    \ }
+\ }
+
+if exists('g:started_by_firenvim')
+  set laststatus=0
+else
+  set laststatus=2
+  nnoremap <C-e> :NERDTreeFind <CR>
+endif
+
+autocmd FileType yaml setlocal shiftwidth=2 softtabstop=2 expandtab
+autocmd FileType yml setlocal shiftwidth=2 softtabstop=2 expandtab
