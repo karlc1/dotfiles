@@ -13,7 +13,7 @@ Plug 'glepnir/lspsaga.nvim'
 Plug 'b3nj5m1n/kommentary'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'cocopon/iceberg.vim'
-Plug 'Raimondi/delimitMate'
+" Plug 'Raimondi/delimitMate'
 Plug 'glepnir/dashboard-nvim'
 Plug 'easymotion/vim-easymotion'
 Plug 'haya14busa/vim-easyoperator-line'
@@ -26,12 +26,29 @@ Plug 'gfanto/fzf-lsp.nvim'
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 Plug 'scrooloose/nerdtree'
 
+Plug 'ayu-theme/ayu-vim'
+Plug 'arcticicestudio/nord-vim'
+
+Plug 'onsails/lspkind-nvim'
+
+Plug 'kyazdani42/nvim-web-devicons' " for file icons
+Plug 'kyazdani42/nvim-tree.lua'
+
+Plug 'akinsho/nvim-bufferline.lua'
+
+Plug 'danilamihailov/beacon.nvim'
+
+Plug 'embark-theme/vim'
+
 call plug#end()
 
 
 " --- COLORS ---
 set termguicolors
-colorscheme OceanicNext
+" let ayucolor="mirage"
+let ayucolor="dark"
+colorscheme embark
+" colorscheme OceanicNext
 set t_Co=256
 
 
@@ -81,15 +98,18 @@ nnoremap <leader>dl :Diagnostics<CR>
 
 " --- AUTOCOMPLETE SETTINGS ---
 
+" trigger compe on ctrl space
+inoremap <silent><expr> <C-Space> compe#complete()
+
 " needed for compe plugin to work
 set completeopt=menu,menuone,noselect
 
 " confirm autocomplete selection on CR
 
 " without demlimitMate
-" inoremap <silent><expr> <CR>  compe#confirm('<CR>')
+inoremap <silent><expr> <CR>  compe#confirm('<CR>')
 " with delimitMate
-inoremap <silent><expr> <CR>  compe#confirm({ 'keys': "\<Plug>delimitMateCR", 'mode': '' })
+" inoremap <silent><expr> <CR>  compe#confirm({ 'keys': "\<Plug>delimitMateCR", 'mode': '' })
 
 
 " close autocomplete menu on ESC if it's open
@@ -285,7 +305,7 @@ nnoremap J <C-e>
 nnoremap K <C-y>
 
 " set keyboard map to US on enter nvim
-autocmd FocusGained,VimEnter * :silent exec "! setxkbmap us &"
+autocmd VimEnter * :silent exec "! setxkbmap us &"
 
 " yank to system clipboard on leader
 vnoremap <Leader>y "+y
@@ -303,6 +323,8 @@ map <C-h> <C-w>h
 map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
+
+set number
 
 
 
@@ -345,3 +367,100 @@ endif
 
 autocmd FileType yaml setlocal shiftwidth=2 softtabstop=2 expandtab
 autocmd FileType yml setlocal shiftwidth=2 softtabstop=2 expandtab
+
+autocmd FileType graphql setlocal shiftwidth=4 softtabstop=4 expandtab
+autocmd FileType graphqls setlocal shiftwidth=4 softtabstop=4 expandtab
+
+" highlight the visual selection after pressing enter.
+xnoremap <silent> <cr> "*y:silent! let searchTerm = '\V'.substitute(escape(@*, '\/'), "\n", '\\n', "g") <bar> let @/ = searchTerm <bar> echo '/'.@/ <bar> call histadd("search", searchTerm) <bar> set hls<cr>
+
+"smart indent when entering insert mode with i on empty lines
+function! IndentWithI()
+    if len(getline('.')) == 0
+        return "\"_cc"
+    else
+        return "i"
+    endif
+endfunction
+nnoremap <expr> i IndentWithI()
+
+" organizie imports on save
+lua << EOF
+function lsp_organize_imports()
+  local context = { source = { organizeImports = true } }
+  vim.validate { context = { context, "table", true } }
+
+  local params = vim.lsp.util.make_range_params()
+  params.context = context
+
+  local method = "textDocument/codeAction"
+  local timeout = 1000 -- ms
+
+  local resp = vim.lsp.buf_request_sync(0, method, params, timeout)
+  if not resp then return end
+
+  for _, client in ipairs(vim.lsp.get_active_clients()) do
+    if resp[client.id] then
+      local result = resp[client.id].result
+      if not result or not result[1] then return end
+
+      local edit = result[1].edit
+      vim.lsp.util.apply_workspace_edit(edit)
+    end
+  end
+end
+
+vim.api.nvim_command("au BufWritePre *.go lua lsp_organize_imports()")
+EOF
+
+nnoremap <leader>t :TestNearest<CR>
+let test#strategy = "neovim"
+tnoremap <Esc> <C-\><C-n>
+
+
+lua << EOF
+require('lspkind').init({
+    -- with_text = true,
+    -- symbol_map = {
+    --   Text = '',
+    --   Method = 'ƒ',
+    --   Function = '',
+    --   Constructor = '',
+    --   Variable = '',
+    --   Class = '',
+    --   Interface = 'ﰮ',
+    --   Module = '',
+    --   Property = '',
+    --   Unit = '',
+    --   Value = '',
+    --   Enum = '了',
+    --   Keyword = '',
+    --   Snippet = '﬌',
+    --   Color = '',
+    --   File = '',
+    --   Folder = '',
+    --   EnumMember = '',
+    --   Constant = '',
+    --   Struct = ''
+    -- },
+})
+EOF
+
+
+nnoremap <leader>e :NvimTreeFindFile<CR>
+let g:nvim_tree_follow = 1
+" let g:nvim_tree_auto_ignore_ft = {'startify', 'dashboard'}
+let g:nvim_tree_auto_close = 1
+
+
+lua << EOF
+require'bufferline'.setup{
+  options = {
+    show_buffer_close_icons = false,
+    show_close_icon = false,
+    separator_style = "thick",
+    always_show_bufferline = false,
+    persist_buffer_sort = false
+  }
+}
+EOF
