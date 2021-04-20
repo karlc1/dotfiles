@@ -40,22 +40,39 @@ Plug 'danilamihailov/beacon.nvim'
 
 Plug 'embark-theme/vim'
 
+Plug 'ray-x/lsp_signature.nvim'
+
+Plug 'jparise/vim-graphql'
+
+Plug 'mfussenegger/nvim-dap'
+
+Plug 'rcarriga/nvim-dap-ui'
+
 call plug#end()
 
+lua require'lsp_signature'.on_attach()
 
 " --- COLORS ---
 set termguicolors
 " let ayucolor="mirage"
 let ayucolor="dark"
-colorscheme embark
-" colorscheme OceanicNext
+" colorscheme embark
+colorscheme OceanicNext
 set t_Co=256
 
 
 " --- LSP SETTINGS ---
 
 " LSP servers
-lua require'lspconfig'.gopls.setup{}
+
+lua << EOF
+require'lspconfig'.gopls.setup{
+  on_attach = function(client)
+    require'lsp_signature'.on_attach()
+  end
+}
+EOF
+
 lua require'lspconfig'.vimls.setup{}
 lua require'lspconfig'.bashls.setup{}
 lua require'lspconfig'.ccls.setup{}
@@ -451,6 +468,8 @@ nnoremap <leader>e :NvimTreeFindFile<CR>
 let g:nvim_tree_follow = 1
 " let g:nvim_tree_auto_ignore_ft = {'startify', 'dashboard'}
 let g:nvim_tree_auto_close = 1
+let g:nvim_tree_width_allow_resize  = 1
+let g:nvim_tree_git_hl = 1
 
 
 lua << EOF
@@ -464,3 +483,5 @@ require'bufferline'.setup{
   }
 }
 EOF
+
+lua require("dapui").setup()
